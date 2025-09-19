@@ -14,7 +14,7 @@ A modern, responsive e-commerce website for Nature Coast Solutions, featuring re
 
 ## 📸 Screenshot
 
-![Nature Coast Solutions Homepage](./.playwright-mcp/naturecoast-homepage.png)
+![Nature Coast Solutions Homepage](./naturecoast-homepage.png)
 
 ## 📁 Project Structure
 
