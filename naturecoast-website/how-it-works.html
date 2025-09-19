@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Nature Coast Solutions - How It Works">
+    <title>HOW IT WORKS | Nature Coast Solutions</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/how-it-works.css">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Age Verification Modal -->
+    <div id="age-verification" class="age-modal">
+        <div class="age-modal-content">
+            <h2>Are you over 21?</h2>
+            <p>You need to be 21 years old or older in order to access our website. Please verify your age.</p>
+            <div class="age-buttons">
+                <button class="btn-verify" onclick="verifyAge(true)">I am over 21</button>
+                <button class="btn-verify" onclick="verifyAge(false)">I am under 21</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="main-header">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo-section">
+                    <a href="index.html">
+                        <img src="assets/logo.png" alt="Nature Coast Solutions" class="logo">
+                    </a>
+                </div>
+
+                <nav class="main-nav desktop-nav">
+                    <ul>
+                        <li><a href="index.html">HOME</a></li>
+                        <li><a href="how-it-works.html" class="active">HOW IT WORKS</a></li>
+                        <li><a href="contact.html">CONTACT US</a></li>
+                    </ul>
+                </nav>
+
+                <div class="auth-section">
+                    <a href="#" class="login-btn">Log In</a>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav" id="mobileNav">
+        <ul>
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="how-it-works.html" class="active">HOW IT WORKS</a></li>
+            <li><a href="contact.html">CONTACT US</a></li>
+            <li class="mobile-login"><a href="#">Log In</a></li>
+        </ul>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>How it Works!</h1>
+            <a href="#member-access" class="btn btn-primary">Request Member Access</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="how-it-works-content">
+        <div class="container">
+            <div class="intro-section">
+                <div class="intro-text">
+                    <h2>What is Nature Coast Solutions?</h2>
+                    <p>Nature Coast Solutions is a private research hub and wellness community offering access to Education Tools, Protocol References, and Third-Party Tested Research Compounds designed to support independent exploration of peptide science.</p>
+                </div>
+                <div class="intro-image">
+                    <img src="assets/research-image.png" alt="Research Lab">
+                </div>
+            </div>
+
+            <!-- Steps Section -->
+            <div class="steps-section">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Step 1: Request Access</h3>
+                    <p>Click the button below to create your account. You will receive an email to complete a brief intake form. This helps us protect the integrity of our research space and ensure everyone understands the educational and research-only purpose of our offerings. Once both have been completed, we will review your request. Normal turn around time is 24 hours.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Step 2: Review the Resources</h3>
+                    <p>Once approved, you'll gain access to:</p>
+                    <ul>
+                        <li>The Education Library</li>
+                        <li>Peptide Testing Overviews with COA's</li>
+                        <li>Member-only Announcements, FAQs and Support tools</li>
+                    </ul>
+                    <p>Explore protocols, reconstitution guides, and research suggestions designed for self-guided learning.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Step 3: Shop Research Products</h3>
+                    <p>Inside the secure portal, you can:</p>
+                    <ul>
+                        <li>Purchase Single Vials with fast shipping</li>
+                        <li>Order Full (10 Vials) and Half (5 Vials) kits for up to 60% member discount and savings.</li>
+                        <li>Submit custom compound request when available.</li>
+                    </ul>
+                    <p>All products for Nature Coast Solutions are labeled for Research Use Only (RUO), and no compounds are intended for human use or therapeutic treatment.</p>
+                    <p>Read our Terms & Conditions, Order & Shipping Policy and Privacy Policy below.</p>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="features-section">
+                <h2>A Research Community You Can Trust</h2>
+                <div class="features-grid">
+                    <div class="feature">
+                        <div class="feature-icon">🔬</div>
+                        <h4>Third Party Tested</h4>
+                        <p>We offer the finest quality peptides that meet or exceed the industry standard of >98% purity.</p>
+                    </div>
+
+                    <div class="feature">
+                        <div class="feature-icon">⭐</div>
+                        <h4>Excellent Member Service</h4>
+                        <p>We take pride in our service and value providing every member relationship a personalized experience.</p>
+                    </div>
+
+                    <div class="feature">
+                        <div class="feature-icon">💳</div>
+                        <h4>Convenient Payment Options</h4>
+                        <p>We guarantee that the payments are 100% secure and we offer a variety of payment methods for convenience.</p>
+                    </div>
+
+                    <div class="feature">
+                        <div class="feature-icon">📦</div>
+                        <h4>Secure Shipping Channels</h4>
+                        <p>We have double customs clearance, door-to-door express for international shipping (3-4 Weeks) and Priority Mail (7-10 days) for domestic shipping.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Disclaimer Section -->
+            <div class="disclaimer-section">
+                <h3>Important Disclaimer</h3>
+                <p>All products offered by Nature Coast Solutions are intended for laboratory, scientific, and research purposes only. These products are not approved by the FDA for human or veterinary use, and they are not intended to diagnose, treat, cure, or prevent any disease. They must not be used for any form of medical application or personal use.</p>
+
+                <p>The information presented on this website is for educational and informational purposes only. It is not intended to be, nor should it be considered, medical advice. Always consult a licensed healthcare professional before making any decisions regarding your health.</p>
+
+                <p>By accessing or purchasing from Nature Coast Solutions, you affirm that you are a qualified researcher or acting under the supervision of one. You agree to use all products strictly for research and assume full responsibility for the handling, storage, and appropriate use of any materials provided.</p>
+
+                <p>All sales are final. Due to the nature of the products, Nature Coast Solutions does not accept returns, offer refunds, or process exchanges. Please ensure you understand the intended use and handling of these materials prior to purchase.</p>
+
+                <p>Nature Coast Solutions disclaims all liability for any misuse, injury, or damages resulting from improper handling or unauthorized use of the materials. The buyer holds full responsibility for complying with any applicable laws and regulations governing the purchase and use of research chemicals in their region.</p>
+            </div>
+
+            <div class="cta-section">
+                <a href="#member-access" class="btn btn-primary btn-large">Request Member Access</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Nature Coast Solutions</h3>
+                    <p>A Research Community You Can Trust</p>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">HOME</a></li>
+                        <li><a href="shop.html">SHOP</a></li>
+                        <li><a href="how-it-works.html">HOW IT WORKS</a></li>
+                        <li><a href="contact.html">CONTACT US</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Shop Categories</h4>
+                    <ul>
+                        <li><a href="shop.html#singles">Singles</a></li>
+                        <li><a href="shop.html#kits">Kits</a></li>
+                        <li><a href="shop.html#capsules">Capsules</a></li>
+                        <li><a href="shop.html#supplies">Supplies</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Policies</h4>
+                    <ul>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="shipping.html">Order & Shipping Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Contact Information</h4>
+                    <p>Business Hours: 5pm - 9pm M-F</p>
+                    <p>Email: support@naturecoastsolutions.com</p>
+                    <p>Dallas, TX</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Nature Coast Solutions - All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+</body>
+</html>

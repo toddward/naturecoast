@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: naturecoast-website
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    volumes:
+      - ./:/usr/share/nginx/html:ro
+    networks:
+      - webnet
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
+
+networks:
+  webnet:
+    driver: bridge
