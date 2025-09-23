@@ -39,6 +39,106 @@ naturecoast-website/
 └── nginx.conf            # Web server configuration
 ```
 
+## 🎯 Customer Requests
+
+### 1. Cryptocurrency Payment Integration (5% Discount)
+
+**Objective**: Implement crypto payment processing with automatic 5% discount to reduce transaction fees and attract crypto-savvy customers.
+
+**Payment Gateway Options**:
+
+- **Coinbase Commerce** (Recommended)
+  - Pros: Easy integration, automatic USDC conversion, 1% fee, Shopify/WooCommerce plugins, no chargebacks
+  - Cons: Limited to specific networks (Base, Ethereum, Polygon)
+  - Implementation: API integration or pre-built plugins
+
+- **NOWPayments**
+  - Pros: 300+ cryptocurrencies, 0.4-0.5% fees, non-custodial options
+  - Cons: Less established brand, may require more customer education
+  - Implementation: REST API with webhooks
+
+- **BTCPay Server**
+  - Pros: Zero fees, complete control, privacy-focused, open-source
+  - Cons: Self-hosted (requires technical expertise), Bitcoin-only by default
+  - Implementation: Docker deployment with Lightning Network support
+
+- **BitPay**
+  - Pros: Established since 2011, regulatory compliant, crypto debit card option
+  - Cons: Higher fees (1-2%), more centralized
+  - Implementation: Direct API or e-commerce plugins
+
+**Technical Requirements**:
+- Wallet management system (hot/cold wallet strategy)
+- Real-time price conversion API
+- Automatic discount calculation at checkout
+- Transaction monitoring and reconciliation
+- Tax reporting integration
+
+### 2. Members-Only Product Section
+
+**Objective**: Create a gated area for vetted customers with exclusive access to actual product listings.
+
+**Authentication & Authorization System**:
+- User registration with email verification
+- Admin approval workflow for membership requests
+- Role-based access control (Guest, Pending, Member, Admin)
+- Session management with JWT tokens
+- Password recovery and two-factor authentication (2FA)
+
+**Member Portal Features**:
+- Personalized dashboard with order history
+- Exclusive product catalog with member pricing
+- Saved payment methods and shipping addresses??
+- Wishlist and product notifications
+- Referral program tracking??
+
+**Admin Vetting Tools**:
+- Application review queue with user verification
+- Background check integration (optional)
+- Manual approval/rejection with notes
+- Member status management (active, suspended, revoked)
+- Audit trail for all admin actions
+
+### 3. Product & Inventory Management System
+
+**Objective**: Build a comprehensive database-driven system for the owner to manage products, inventory, and users efficiently.
+
+**Database Architecture**:
+- **PostgreSQL** or **MySQL** for relational data, **NoSQL** alternative as well.
+- Tables: products, inventory, users, orders, transactions, audit_logs
+- Real-time inventory tracking with stock alerts
+- Product variants (size, potency, packaging)
+- Batch tracking for compliance
+
+**Admin Dashboard Features**:
+- **Product Management**:
+  - CRUD operations for all products
+  - Bulk import/export (CSV, Excel)
+  - Image upload with CDN integration
+  - SEO metadata management
+  - Category and tag organization
+
+- **Inventory Control**:
+  - Real-time stock levels
+  - Low stock alerts and automatic reorder points
+  - Supplier management
+  - Cost tracking and profit margin analysis
+  - Expiration date tracking for perishables
+
+- **User Management**:
+  - Customer profiles with purchase history
+  - Membership tier management
+  - Communication tools (email, SMS)
+  - Customer analytics and segmentation
+  - Export capabilities for marketing
+
+**Technology Stack Recommendations**:
+- Backend: Node.js with Express or Python with Django/FastAPI
+- Database: PostgreSQL with Redis for caching
+- Admin UI: React Admin or custom React/Vue dashboard
+- API: RESTful or GraphQL
+- Hosting: AWS/Google Cloud with auto-scaling
+
 ## 🚀 Quick Start
 
 ### Local Development
