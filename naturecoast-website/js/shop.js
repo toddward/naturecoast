@@ -235,17 +235,75 @@ function loadCart() {
     }
 }
 
-// Handle form submission
-document.getElementById('orderForm')?.addEventListener('submit', function(e) {
-    e.preventDefault();
-
+// Handle order submission
+function submitOrder() {
     if (cart.length === 0) {
         alert('Your cart is empty. Please add products to your order.');
         return;
     }
 
     // Collect form data
-    const formData = new FormData(e.target);
+    const form = document.getElementById('orderForm');
+    const formData = new FormData(form);
+
+    // Validate customer information
+    if (!formData.get('firstName') || !formData.get('lastName') || !formData.get('email') ||
+        !formData.get('address') || !formData.get('city') || !formData.get('state') || !formData.get('zip')) {
+        alert('Please fill in all customer information fields.');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+    }
+
+    // Show order confirmation modal
+    displayOrderConfirmationModal(formData);
+}
+
+// Display order confirmation modal
+function displayOrderConfirmationModal(formData) {
+    const modal = document.getElementById('orderConfirmationModal');
+
+    // Populate customer info
+    const customerInfo = `
+        <p><strong>Name:</strong> ${formData.get('firstName')} ${formData.get('lastName')}</p>
+        <p><strong>Email:</strong> ${formData.get('email')}</p>
+        <p><strong>Address:</strong> ${formData.get('address')}</p>
+        <p><strong>City, State, Zip:</strong> ${formData.get('city')}, ${formData.get('state')} ${formData.get('zip')}</p>
+    `;
+    document.getElementById('modalCustomerInfo').innerHTML = customerInfo;
+
+    // Populate order items
+    let itemsHTML = '<ul class="modal-items-list">';
+    cart.forEach(item => {
+        const subtotal = item.price * item.quantity;
+        itemsHTML += `
+            <li>
+                <div class="modal-item-name">${item.name}</div>
+                <div class="modal-item-details">Quantity: ${item.quantity} × $${item.price.toFixed(2)} = $${subtotal.toFixed(2)}</div>
+            </li>
+        `;
+    });
+    itemsHTML += '</ul>';
+    document.getElementById('modalOrderItems').innerHTML = itemsHTML;
+
+    // Populate total
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    document.getElementById('modalOrderTotal').innerHTML = `<strong>$${total.toFixed(2)}</strong>`;
+
+    // Show modal
+    modal.style.display = 'block';
+}
+
+// Close order confirmation modal
+function closeOrderModal() {
+    const modal = document.getElementById('orderConfirmationModal');
+    modal.style.display = 'none';
+}
+
+// Confirm and submit order
+function confirmAndSubmitOrder() {
+    const form = document.getElementById('orderForm');
+    const formData = new FormData(form);
+
     const orderData = {
         customer: Object.fromEntries(formData),
         items: cart,
@@ -255,14 +313,18 @@ document.getElementById('orderForm')?.addEventListener('submit', function(e) {
     // Here you would normally send the order to a backend
     console.log('Order submitted:', orderData);
 
+    // Close modal
+    closeOrderModal();
+
     // Show success message
     alert('Order submitted successfully! Please complete payment using one of the provided methods.');
 
-    // Clear cart
+    // Clear cart from localStorage and memory
     cart = [];
+    localStorage.removeItem('natureCoastCart');
     updateCart();
     products.forEach(p => updateDisplay(p.id));
 
     // Reset form
-    e.target.reset();
-});
+    form.reset();
+}
