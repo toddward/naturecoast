@@ -45,6 +45,7 @@
                 <nav class="main-nav desktop-nav">
                     <ul>
                         <li><a href="index.html">HOME</a></li>
+                        <li><a href="shop.html" class="active">SHOP</a></li>
                         <li><a href="how-it-works.html">HOW IT WORKS</a></li>
                         <li><a href="contact.html">CONTACT US</a></li>
                     </ul>
@@ -71,6 +72,7 @@
     <nav class="mobile-nav" id="mobileNav">
         <ul>
             <li><a href="index.html">HOME</a></li>
+            <li><a href="shop.html" class="active">SHOP</a></li>
             <li><a href="how-it-works.html">HOW IT WORKS</a></li>
             <li><a href="contact.html">CONTACT US</a></li>
         </ul>
@@ -123,6 +125,12 @@
     <section class="product-listing-section">
         <div class="container">
             <h2>Step 2: Select Products</h2>
+
+            <!-- Submit Order Button - Top -->
+            <div style="text-align: center; margin: 30px 0;">
+                <button type="button" onclick="submitOrder()" class="btn btn-primary btn-submit">Submit Order</button>
+            </div>
+
             <div class="product-listing-wrapper">
                 <div class="category-tabs">
                     <button class="category-tab active" onclick="filterProducts('all')">All Products</button>
@@ -135,51 +143,57 @@
                 <div class="products-grid" id="productsGrid">
                     <!-- Product items will be dynamically loaded here -->
                 </div>
+
+                <!-- Submit Order Button -->
+                <div style="text-align: center; margin-top: 40px;">
+                    <button type="button" onclick="submitOrder()" class="btn btn-primary btn-submit">Submit Order</button>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Section 3: Order Summary & Submission -->
-    <section class="order-summary-section">
-        <div class="container">
-            <h2>Step 3: Review & Submit Order</h2>
-            <div class="order-form-section">
-                <!-- Cart Summary -->
-                <div class="cart-summary">
-                    <h3>Order Summary</h3>
-                    <div id="cartItems" class="cart-items">
-                        <div class="cart-empty">Your cart is empty</div>
-                    </div>
-                    <div class="cart-total">
-                        <span>Total:</span>
-                        <span id="cartTotal">$0.00</span>
-                    </div>
+    <!-- Order Confirmation Modal -->
+    <div id="orderConfirmationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Order Confirmation</h2>
+                <span class="close-modal" onclick="closeOrderModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <h3>The following information will be emailed:</h3>
+
+                <div class="order-details-section">
+                    <h4>Customer Information:</h4>
+                    <div id="modalCustomerInfo"></div>
                 </div>
 
-                <!-- Payment Options -->
-                <div class="payment-section">
-                    <h3>Payment Options</h3>
-                    <div class="payment-options">
-                        <div class="payment-option">
-                            <strong>ZELLE:</strong> carlaprilbane@yahoo.com
-                        </div>
-                        <div class="payment-option">
-                            <strong>CHIME:</strong> 813-539-0241
-                        </div>
-                        <div class="payment-option">
-                            <strong>CASHAPP:</strong> $APRILBANE
-                        </div>
-                        <div class="payment-option">
-                            <strong>VENMO:</strong> @APRIL-BANE-1
-                        </div>
-                    </div>
-                    <p class="payment-note">Questions: naturecoastsolutions@gmail.com</p>
+                <div class="order-details-section">
+                    <h4>Order Items:</h4>
+                    <div id="modalOrderItems"></div>
                 </div>
 
-                <button type="button" onclick="submitOrder()" class="btn btn-primary btn-submit">Submit Order</button>
+                <div class="order-details-section">
+                    <h4>Order Total:</h4>
+                    <div id="modalOrderTotal" class="modal-total"></div>
+                </div>
+
+                <div class="order-details-section">
+                    <h4>Payment Instructions:</h4>
+                    <p>Please send payment to one of the following:</p>
+                    <ul>
+                        <li><strong>ZELLE:</strong> carlaprilbane@yahoo.com</li>
+                        <li><strong>CHIME:</strong> 813-539-0241</li>
+                        <li><strong>CASHAPP:</strong> $APRILBANE</li>
+                        <li><strong>VENMO:</strong> @APRIL-BANE-1</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeOrderModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="confirmAndSubmitOrder()">Confirm & Submit</button>
             </div>
         </div>
-    </section>
+    </div>
 
     <!-- Footer -->
     <footer class="main-footer">
