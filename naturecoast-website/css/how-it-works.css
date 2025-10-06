@@ -17,6 +17,10 @@
     padding: 60px 0;
 }
 
+.how-it-works-logo {
+    width: 50px;
+}
+
 /* Intro Section */
 .intro-section {
     display: grid;
@@ -40,7 +44,7 @@
 }
 
 .intro-image img {
-    width: 100%;
+    width: 30%;
     height: auto;
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
