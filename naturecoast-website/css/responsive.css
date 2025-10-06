@@ -98,6 +98,11 @@
         margin-bottom: 30px;
     }
 
+    .footer-logo {
+        height: 110px;
+        margin: 20px auto 0;
+    }
+
     .main-footer {
         padding: 40px 0 20px;
         margin-top: 60px;
