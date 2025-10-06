@@ -437,6 +437,13 @@ body {
     line-height: 1.8;
 }
 
+.footer-logo {
+    height: 147px;
+    width: auto;
+    margin-top: 20px;
+    display: block;
+}
+
 .footer-bottom {
     text-align: center;
     padding-top: 20px;
