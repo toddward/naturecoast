@@ -235,22 +235,29 @@ function loadCart() {
     }
 }
 
-// Handle form submission
-document.getElementById('orderForm')?.addEventListener('submit', function(e) {
-    e.preventDefault();
-
+// Handle order submission
+function submitOrder() {
     if (cart.length === 0) {
         alert('Your cart is empty. Please add products to your order.');
         return;
     }
 
     // Collect form data
-    const formData = new FormData(e.target);
+    const form = document.getElementById('orderForm');
+    const formData = new FormData(form);
     const orderData = {
         customer: Object.fromEntries(formData),
         items: cart,
         total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
     };
+
+    // Validate customer information
+    if (!formData.get('firstName') || !formData.get('lastName') || !formData.get('email') ||
+        !formData.get('address') || !formData.get('city') || !formData.get('state') || !formData.get('zip')) {
+        alert('Please fill in all customer information fields.');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+    }
 
     // Here you would normally send the order to a backend
     console.log('Order submitted:', orderData);
@@ -264,5 +271,5 @@ document.getElementById('orderForm')?.addEventListener('submit', function(e) {
     products.forEach(p => updateDisplay(p.id));
 
     // Reset form
-    e.target.reset();
-});
+    form.reset();
+}

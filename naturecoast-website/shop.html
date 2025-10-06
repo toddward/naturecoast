@@ -50,14 +50,11 @@
                     </ul>
                 </nav>
 
-                <div class="auth-section">
-                    <a href="#" class="login-btn">Log In</a>
-                    <div class="cart-icon">
-                        <span class="cart-count">0</span>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
-                        </svg>
-                    </div>
+                <div class="cart-icon">
+                    <span class="cart-count">0</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+                    </svg>
                 </div>
 
                 <!-- Mobile Menu Toggle -->
@@ -76,7 +73,6 @@
             <li><a href="index.html">HOME</a></li>
             <li><a href="how-it-works.html">HOW IT WORKS</a></li>
             <li><a href="contact.html">CONTACT US</a></li>
-            <li class="mobile-login"><a href="#">Log In</a></li>
         </ul>
     </nav>
 
@@ -99,73 +95,88 @@
         </div>
     </section>
 
-    <!-- Product Categories -->
-    <section class="product-categories">
+    <!-- Section 1: Customer Information -->
+    <section class="customer-info-section">
         <div class="container">
-            <div class="category-tabs">
-                <button class="category-tab active" onclick="filterProducts('all')">All Products</button>
-                <button class="category-tab" onclick="filterProducts('singles')">Singles</button>
-                <button class="category-tab" onclick="filterProducts('kits')">Kits</button>
-                <button class="category-tab" onclick="filterProducts('supplies')">Supplies</button>
-            </div>
-
-            <!-- Order Form Section -->
+            <h2>Step 1: Customer Information</h2>
             <div class="order-form-section">
                 <form id="orderForm" class="order-form">
                     <div class="customer-info">
-                        <h3>Customer Information</h3>
                         <div class="form-row">
-                            <input type="text" placeholder="First Name" required>
-                            <input type="text" placeholder="Last Name" required>
+                            <input type="text" name="firstName" placeholder="First Name" required>
+                            <input type="text" name="lastName" placeholder="Last Name" required>
                         </div>
-                        <input type="email" placeholder="Email" required>
-                        <input type="text" placeholder="Street Address" required>
+                        <input type="email" name="email" placeholder="Email" required>
+                        <input type="text" name="address" placeholder="Street Address" required>
                         <div class="form-row">
-                            <input type="text" placeholder="City" required>
-                            <input type="text" placeholder="State" required>
-                            <input type="text" placeholder="Zip Code" required>
+                            <input type="text" name="city" placeholder="City" required>
+                            <input type="text" name="state" placeholder="State" required>
+                            <input type="text" name="zip" placeholder="Zip Code" required>
                         </div>
                     </div>
-
-                    <!-- Products Grid -->
-                    <div class="products-grid" id="productsGrid">
-                        <!-- Product items will be dynamically loaded here -->
-                    </div>
-
-                    <!-- Cart Summary -->
-                    <div class="cart-summary">
-                        <h3>Order Summary</h3>
-                        <div id="cartItems" class="cart-items">
-                            <!-- Cart items will appear here -->
-                        </div>
-                        <div class="cart-total">
-                            <span>Total:</span>
-                            <span id="cartTotal">$0.00</span>
-                        </div>
-                    </div>
-
-                    <!-- Payment Options -->
-                    <div class="payment-section">
-                        <h3>Payment Options</h3>
-                        <div class="payment-options">
-                            <div class="payment-option">
-                                <strong>ZELLE:</strong> carlaprilbane@yahoo.com
-                            </div>
-                            <div class="payment-option">
-                                <strong>CHIME:</strong> 813-539-0241
-                            </div>
-                            <div class="payment-option">
-                                <strong>CASHAPP:</strong> $APRILBANE
-                            </div>
-                            <div class="payment-option">
-                                <strong>VENMO:</strong> @APRIL-BANE-1
-                            </div>
-                        </div>
-                        <p class="payment-note">Questions: naturecoastsolutions@gmail.com</p>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-submit">Submit Order</button>
                 </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Product Listing -->
+    <section class="product-listing-section">
+        <div class="container">
+            <h2>Step 2: Select Products</h2>
+            <div class="product-listing-wrapper">
+                <div class="category-tabs">
+                    <button class="category-tab active" onclick="filterProducts('all')">All Products</button>
+                    <button class="category-tab" onclick="filterProducts('singles')">Singles</button>
+                    <button class="category-tab" onclick="filterProducts('kits')">Kits</button>
+                    <button class="category-tab" onclick="filterProducts('supplies')">Supplies</button>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="products-grid" id="productsGrid">
+                    <!-- Product items will be dynamically loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Order Summary & Submission -->
+    <section class="order-summary-section">
+        <div class="container">
+            <h2>Step 3: Review & Submit Order</h2>
+            <div class="order-form-section">
+                <!-- Cart Summary -->
+                <div class="cart-summary">
+                    <h3>Order Summary</h3>
+                    <div id="cartItems" class="cart-items">
+                        <div class="cart-empty">Your cart is empty</div>
+                    </div>
+                    <div class="cart-total">
+                        <span>Total:</span>
+                        <span id="cartTotal">$0.00</span>
+                    </div>
+                </div>
+
+                <!-- Payment Options -->
+                <div class="payment-section">
+                    <h3>Payment Options</h3>
+                    <div class="payment-options">
+                        <div class="payment-option">
+                            <strong>ZELLE:</strong> carlaprilbane@yahoo.com
+                        </div>
+                        <div class="payment-option">
+                            <strong>CHIME:</strong> 813-539-0241
+                        </div>
+                        <div class="payment-option">
+                            <strong>CASHAPP:</strong> $APRILBANE
+                        </div>
+                        <div class="payment-option">
+                            <strong>VENMO:</strong> @APRIL-BANE-1
+                        </div>
+                    </div>
+                    <p class="payment-note">Questions: naturecoastsolutions@gmail.com</p>
+                </div>
+
+                <button type="button" onclick="submitOrder()" class="btn btn-primary btn-submit">Submit Order</button>
             </div>
         </div>
     </section>
