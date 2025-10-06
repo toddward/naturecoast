@@ -62,10 +62,35 @@ let products = [
 
     // Supplies
     { id: 56, name: '31G 5/16 1ML PK OF 10 NEEDLES', price: 8.00, category: 'supplies' },
-    { id: 57, name: 'GA WATER 10ML ***AOD WATER*** 3X YOU CAN ONLY USE THIS IN AOD', price: 20.00, category: 'supplies' },
-    { id: 58, name: 'SHIPPING 1-5 KITS', price: 10.00, category: 'supplies' },
-    { id: 59, name: 'SHIPPING 6-12 KITS', price: 10.00, category: 'supplies' }
+    { id: 57, name: 'GA WATER 10ML ***AOD WATER*** 3X YOU CAN ONLY USE THIS IN AOD', price: 20.00, category: 'supplies' }
 ];
+
+// Count total kits in cart
+function countKitsInCart() {
+    return cart.reduce((count, item) => {
+        const product = products.find(p => p.id === item.id);
+        if (product && product.category === 'kits') {
+            count += item.quantity;
+        }
+        return count;
+    }, 0);
+}
+
+// Calculate shipping based on kit count
+function calculateShipping() {
+    const kitCount = countKitsInCart();
+
+    if (kitCount === 0) {
+        return 0;
+    } else if (kitCount >= 1 && kitCount <= 5) {
+        return 10.00;
+    } else if (kitCount >= 6 && kitCount <= 12) {
+        return 20.00;
+    } else {
+        // 13+ kits - quote required
+        return null;
+    }
+}
 
 // Initialize shop on page load
 document.addEventListener('DOMContentLoaded', function() {
@@ -114,14 +139,16 @@ function createProductElement(product) {
 }
 
 // Filter products by category
-function filterProducts(category) {
+function filterProducts(category, event) {
     displayProducts(category);
 
     // Update active tab
     document.querySelectorAll('.category-tab').forEach(tab => {
         tab.classList.remove('active');
     });
-    event.target.classList.add('active');
+    if (event && event.target) {
+        event.target.classList.add('active');
+    }
 }
 
 // Increase quantity
@@ -131,9 +158,7 @@ function increaseQuantity(productId) {
 
     let cartItem = cart.find(item => item.id === productId);
     if (cartItem) {
-        if (cartItem.quantity < 10) {
-            cartItem.quantity++;
-        }
+        cartItem.quantity++;
     } else {
         cart.push({
             id: productId,
@@ -192,12 +217,12 @@ function updateCart() {
     }
 
     let cartHTML = '';
-    let total = 0;
+    let subtotal = 0;
     let itemCount = 0;
 
     cart.forEach(item => {
-        const subtotal = item.price * item.quantity;
-        total += subtotal;
+        const itemSubtotal = item.price * item.quantity;
+        subtotal += itemSubtotal;
         itemCount += item.quantity;
         cartHTML += `
             <div class="cart-item">
@@ -205,13 +230,51 @@ function updateCart() {
                     <div>${item.name}</div>
                     <small>${item.quantity} x $${item.price.toFixed(2)}</small>
                 </div>
-                <div>$${subtotal.toFixed(2)}</div>
+                <div>$${itemSubtotal.toFixed(2)}</div>
             </div>
         `;
     });
 
+    // Calculate shipping
+    const shipping = calculateShipping();
+    const kitCount = countKitsInCart();
+
+    // Add shipping to cart display
+    if (kitCount > 0) {
+        if (shipping === null) {
+            cartHTML += `
+                <div class="cart-item shipping-item">
+                    <div>
+                        <div>Shipping (${kitCount} kits)</div>
+                        <small>Quote required for 13+ kits</small>
+                    </div>
+                    <div>Contact Us</div>
+                </div>
+            `;
+        } else {
+            cartHTML += `
+                <div class="cart-item shipping-item">
+                    <div>
+                        <div>Shipping (${kitCount} kits)</div>
+                        <small>Auto-calculated</small>
+                    </div>
+                    <div>$${shipping.toFixed(2)}</div>
+                </div>
+            `;
+        }
+    }
+
     cartItemsDiv.innerHTML = cartHTML;
-    if (cartTotalSpan) cartTotalSpan.textContent = `$${total.toFixed(2)}`;
+
+    // Calculate total
+    const total = shipping !== null ? subtotal + shipping : subtotal;
+    if (cartTotalSpan) {
+        if (shipping === null) {
+            cartTotalSpan.textContent = `$${subtotal.toFixed(2)} + Quote`;
+        } else {
+            cartTotalSpan.textContent = `$${total.toFixed(2)}`;
+        }
+    }
     if (cartCountSpan) cartCountSpan.textContent = itemCount;
 
     // Save cart to localStorage
@@ -273,21 +336,50 @@ function displayOrderConfirmationModal(formData) {
 
     // Populate order items
     let itemsHTML = '<ul class="modal-items-list">';
+    let subtotal = 0;
     cart.forEach(item => {
-        const subtotal = item.price * item.quantity;
+        const itemSubtotal = item.price * item.quantity;
+        subtotal += itemSubtotal;
         itemsHTML += `
             <li>
                 <div class="modal-item-name">${item.name}</div>
-                <div class="modal-item-details">Quantity: ${item.quantity} × $${item.price.toFixed(2)} = $${subtotal.toFixed(2)}</div>
+                <div class="modal-item-details">Quantity: ${item.quantity} × $${item.price.toFixed(2)} = $${itemSubtotal.toFixed(2)}</div>
             </li>
         `;
     });
+
+    // Add shipping to order items
+    const shipping = calculateShipping();
+    const kitCount = countKitsInCart();
+
+    if (kitCount > 0) {
+        if (shipping === null) {
+            itemsHTML += `
+                <li class="shipping-item">
+                    <div class="modal-item-name">Shipping (${kitCount} kits)</div>
+                    <div class="modal-item-details">We'll reach out to you for a custom shipping quote</div>
+                </li>
+            `;
+        } else {
+            itemsHTML += `
+                <li class="shipping-item">
+                    <div class="modal-item-name">Shipping (${kitCount} kits)</div>
+                    <div class="modal-item-details">$${shipping.toFixed(2)}</div>
+                </li>
+            `;
+        }
+    }
+
     itemsHTML += '</ul>';
     document.getElementById('modalOrderItems').innerHTML = itemsHTML;
 
     // Populate total
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    document.getElementById('modalOrderTotal').innerHTML = `<strong>$${total.toFixed(2)}</strong>`;
+    const total = shipping !== null ? subtotal + shipping : subtotal;
+    if (shipping === null) {
+        document.getElementById('modalOrderTotal').innerHTML = `<strong>$${subtotal.toFixed(2)}</strong><br><small style="font-weight: normal;">Shipping quote will be provided separately</small>`;
+    } else {
+        document.getElementById('modalOrderTotal').innerHTML = `<strong>$${total.toFixed(2)}</strong>`;
+    }
 
     // Show modal
     modal.style.display = 'block';
@@ -304,10 +396,16 @@ function confirmAndSubmitOrder() {
     const form = document.getElementById('orderForm');
     const formData = new FormData(form);
 
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const shipping = calculateShipping();
+    const total = shipping !== null ? subtotal + shipping : subtotal;
+
     const orderData = {
         customer: Object.fromEntries(formData),
         items: cart,
-        total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+        subtotal: subtotal,
+        shipping: shipping,
+        total: total
     };
 
     // Here you would normally send the order to a backend
