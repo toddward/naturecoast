@@ -1,15 +1,23 @@
 // DigitalOcean Serverless Function for sending order emails via Resend
-const { Resend } = require('resend');
+import { Resend } from 'resend';
 
-async function main(args) {
+export async function main(event) {
+  // Check if this is a POST request
+  if (event.http && event.http.method !== 'POST') {
+    return {
+      statusCode: 405,
+      body: { success: false, error: 'Method not allowed' }
+    };
+  }
+
   // Initialize Resend with API key from environment
   const resend = new Resend(process.env.RESEND_API_KEY);
 
-  // Extract order data from request
-  const { customer, items, subtotal, shipping, total } = args;
+  // Extract order data from event (DigitalOcean auto-parses JSON body)
+  const { customer, items, subtotal, shipping, total } = event;
 
   // Validate required data
-  if (!customer || !items || items.length === 0) {
+  if (!customer || !items || !Array.isArray(items) || items.length === 0) {
     return {
       statusCode: 400,
       body: { success: false, error: 'Missing required order data' }
@@ -118,7 +126,7 @@ async function main(args) {
   try {
     // Send email via Resend
     const result = await resend.emails.send({
-      from: 'orders@resend.dev', // Using Resend's default domain for now
+      from: 'orders@resend.dev', // Using Resend's default domain
       to: 'wardzinski.todd+nature@gmail.com', // Debug email address
       subject: `New Order from ${customer.firstName} ${customer.lastName} - $${total.toFixed(2)}`,
       html: emailHtml
@@ -136,5 +144,3 @@ async function main(args) {
     };
   }
 }
-
-exports.main = main;

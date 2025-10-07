@@ -1,0 +1,4 @@
+packages:
+  - name: send-order-email
+    environment:
+      RESEND_API_KEY: ${RESEND_API_KEY}
