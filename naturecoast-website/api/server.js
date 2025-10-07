@@ -1,12 +1,21 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// Initialize Resend
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Initialize SMTP transporter with environment variables
+const transporter = nodemailer.createTransporter({
+  host: process.env.SMTP_HOST,
+  port: parseInt(process.env.SMTP_PORT || '587'),
+  secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS
+  }
+});
 
 // Middleware
 app.use(cors());
@@ -14,7 +23,21 @@ app.use(express.json());
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-  res.json({ status: 'healthy', timestamp: new Date().toISOString() });
+  const smtpConfig = {
+    host: process.env.SMTP_HOST ? 'configured' : 'missing',
+    port: process.env.SMTP_PORT || '587',
+    secure: process.env.SMTP_SECURE === 'true',
+    user: process.env.SMTP_USER ? 'configured' : 'missing',
+    pass: process.env.SMTP_PASS ? 'configured' : 'missing',
+    from: process.env.SMTP_FROM || 'orders@naturecoastsolutions.com',
+    to: process.env.SMTP_TO || 'orders@naturecoastsolutions.com'
+  };
+
+  res.json({
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    smtp: smtpConfig
+  });
 });
 
 // Send order email endpoint
@@ -133,20 +156,20 @@ app.post('/send-order-email', async (req, res) => {
       </html>
     `;
 
-    // Send email via Resend
-    const result = await resend.emails.send({
-      from: 'orders@resend.dev',
-      to: 'wardzinski.todd+nature@gmail.com',
+    // Send email via SMTP
+    const info = await transporter.sendMail({
+      from: process.env.SMTP_FROM || 'orders@naturecoastsolutions.com',
+      to: process.env.SMTP_TO || 'orders@naturecoastsolutions.com',
       subject: `New Order from ${customer.firstName} ${customer.lastName} - $${total.toFixed(2)}`,
       html: emailHtml
     });
 
-    console.log('Email sent successfully:', result.id);
+    console.log('Email sent successfully:', info.messageId);
 
     res.json({
       success: true,
       message: 'Order email sent successfully',
-      id: result.id
+      messageId: info.messageId
     });
 
   } catch (error) {
@@ -159,8 +182,28 @@ app.post('/send-order-email', async (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`API server running on port ${PORT}`);
   console.log(`Health check: http://localhost:${PORT}/health`);
   console.log(`Email endpoint: POST http://localhost:${PORT}/send-order-email`);
+
+  // Log SMTP configuration status
+  console.log('\n=== SMTP Configuration ===');
+  console.log(`SMTP_HOST: ${process.env.SMTP_HOST ? '✓ Set' : '✗ Missing'}`);
+  console.log(`SMTP_PORT: ${process.env.SMTP_PORT || '587 (default)'}`);
+  console.log(`SMTP_SECURE: ${process.env.SMTP_SECURE === 'true' ? 'true (SSL/TLS)' : 'false'}`);
+  console.log(`SMTP_USER: ${process.env.SMTP_USER ? '✓ Set' : '✗ Missing'}`);
+  console.log(`SMTP_PASS: ${process.env.SMTP_PASS ? '✓ Set' : '✗ Missing'}`);
+  console.log(`SMTP_FROM: ${process.env.SMTP_FROM || 'orders@naturecoastsolutions.com (default)'}`);
+  console.log(`SMTP_TO: ${process.env.SMTP_TO || 'orders@naturecoastsolutions.com (default)'}`);
+
+  // Test SMTP connection
+  try {
+    await transporter.verify();
+    console.log('✓ SMTP connection verified successfully');
+  } catch (error) {
+    console.error('✗ SMTP connection failed:', error.message);
+    console.error('Please check your SMTP configuration');
+  }
+  console.log('========================\n');
 });
