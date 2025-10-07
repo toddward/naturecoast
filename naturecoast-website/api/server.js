@@ -10,14 +10,51 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 // Initialize SMTP transporter with environment variables
+//
+// TROUBLESHOOTING SSL/TLS ERRORS:
+//
+// For "wrong version number" error, try these configurations:
+//
+// Option 1: Port 587 with STARTTLS (current configuration)
+// - Set SMTP_PORT=587 and SMTP_SECURE=false in .env
+//
+// Option 2: Port 465 with SSL/TLS
+// - Set SMTP_PORT=465 and SMTP_SECURE=true in .env
+//
+// Option 3: Port 25 (if allowed by your provider)
+// - Set SMTP_PORT=25 and SMTP_SECURE=false in .env
+//
+// For Gmail specifically:
+// 1. Use an App Password (not your regular password)
+// 2. Enable 2FA and generate an App Password at: https://myaccount.google.com/apppasswords
+// 3. Use smtp.gmail.com as host
+// 4. Port 587 with SMTP_SECURE=false OR Port 465 with SMTP_SECURE=true
+//
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: parseInt(process.env.SMTP_PORT || '587'),
-  secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
+  secure: process.env.SMTP_SECURE === 'true', // true for port 465, false for port 587
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS
-  }
+  },
+  // TLS configuration to fix SSL version errors
+  tls: {
+    // Do not fail on invalid certs
+    rejectUnauthorized: false,
+    // Force TLS version to prevent SSL version mismatch
+    minVersion: 'TLSv1.2',
+    // Enable cipher suite that works with most SMTP servers
+    ciphers: 'SSLv3'
+  },
+  // Additional options for STARTTLS on port 587
+  requireTLS: process.env.SMTP_PORT === '587' || !process.env.SMTP_PORT,
+  // Connection timeout
+  connectionTimeout: 60000,
+  greetingTimeout: 30000,
+  // Debug output
+  debug: process.env.NODE_ENV === 'development',
+  logger: process.env.NODE_ENV === 'development'
 });
 
 // Middleware
