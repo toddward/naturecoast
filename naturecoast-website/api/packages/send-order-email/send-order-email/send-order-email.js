@@ -3,11 +3,16 @@ import { Resend } from 'resend';
 
 export async function main(event) {
   // Log the event structure for debugging
-  console.log('Event structure:', JSON.stringify(event));
+  console.log('Function invoked! Event structure:', JSON.stringify(event));
 
+  // For now, accept all requests to debug
   // Check if this is a POST request - handle different event structures
-  const httpMethod = event.__ow_method || (event.http && event.http.method) || event.method;
+  const httpMethod = event.__ow_method || (event.http && event.http.method) || event.method || 'POST';
 
+  console.log('HTTP Method detected:', httpMethod);
+
+  // Temporarily disabled method checking for debugging
+  /*
   if (httpMethod && httpMethod !== 'POST') {
     return {
       statusCode: 405,
@@ -15,17 +20,32 @@ export async function main(event) {
       body: JSON.stringify({ success: false, error: 'Method not allowed', receivedMethod: httpMethod })
     };
   }
+  */
 
   // Initialize Resend with API key from environment
   const resend = new Resend(process.env.RESEND_API_KEY);
 
   // Extract order data from event (DigitalOcean auto-parses JSON body)
   // Try different ways the data might be structured
-  const data = event.body || event.__ow_body || event;
-  const { customer, items, subtotal, shipping, total } = typeof data === 'string' ? JSON.parse(data) : data;
+  let customer, items, subtotal, shipping, total;
+
+  try {
+    const data = event.body || event.__ow_body || event;
+    const parsed = typeof data === 'string' ? JSON.parse(data) : data;
+    ({ customer, items, subtotal, shipping, total } = parsed);
+    console.log('Parsed data successfully:', { customer: customer?.firstName, itemCount: items?.length });
+  } catch (parseError) {
+    console.error('Error parsing data:', parseError);
+    return {
+      statusCode: 400,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ success: false, error: 'Failed to parse request data', detail: parseError.message })
+    };
+  }
 
   // Validate required data
   if (!customer || !items || !Array.isArray(items) || items.length === 0) {
+    console.log('Validation failed:', { hasCustomer: !!customer, hasItems: !!items, isArray: Array.isArray(items) });
     return {
       statusCode: 400,
       headers: { 'Content-Type': 'application/json' },
