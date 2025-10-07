@@ -453,7 +453,7 @@ async function confirmAndSubmitOrder() {
             throw new Error(result.error || 'Failed to submit order');
         }
     } catch (error) {
-        console.error('Order submission error:', error);
+        console.error('Order submission error:', JSON.stringify(error));
         alert('There was an error submitting your order. Please try again or contact us directly at naturecoastsolutions@gmail.com');
     } finally {
         confirmBtn.textContent = originalText;
