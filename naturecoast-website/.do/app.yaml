@@ -24,11 +24,8 @@ functions:
       repo: toddward/naturecoast
       branch: main
       deploy_on_push: true
-    source_dir: /naturecoast-website/api
-    runtime: node-js
+    source_dir: naturecoast-website/api
     envs:
       - key: RESEND_API_KEY
         scope: RUN_TIME
         type: SECRET
-    routes:
-      - path: /api/send-order-email
