@@ -419,7 +419,7 @@ async function confirmAndSubmitOrder() {
     };
 
     // Get confirm button for loading state
-    const confirmBtn = document.querySelector('#orderConfirmationModal .btn-submit');
+    const confirmBtn = document.querySelector('#orderConfirmationModal .btn-primary');
     const originalText = confirmBtn.textContent;
     confirmBtn.textContent = 'Submitting Order...';
     confirmBtn.disabled = true;
