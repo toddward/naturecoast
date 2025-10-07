@@ -1,0 +1,34 @@
+# DigitalOcean App Platform Configuration
+name: naturecoast-website
+region: nyc
+
+# Static site component for frontend
+static_sites:
+  - name: frontend
+    github:
+      repo: toddward/naturecoast
+      branch: main
+      deploy_on_push: true
+    source_dir: /naturecoast-website
+    output_dir: /naturecoast-website
+    index_document: index.html
+    error_document: index.html
+    routes:
+      - path: /
+    build_command: echo "No build needed for static site"
+
+# Serverless functions component
+functions:
+  - name: send-order-email
+    github:
+      repo: toddward/naturecoast
+      branch: main
+      deploy_on_push: true
+    source_dir: /naturecoast-website/api
+    runtime: node-js
+    envs:
+      - key: RESEND_API_KEY
+        scope: RUN_TIME
+        type: SECRET
+    routes:
+      - path: /api/send-order-email

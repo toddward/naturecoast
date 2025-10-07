@@ -402,7 +402,7 @@ function closeOrderModal() {
 }
 
 // Confirm and submit order
-function confirmAndSubmitOrder() {
+async function confirmAndSubmitOrder() {
     const form = document.getElementById('orderForm');
     const formData = new FormData(form);
 
@@ -418,21 +418,45 @@ function confirmAndSubmitOrder() {
         total: total
     };
 
-    // Here you would normally send the order to a backend
-    console.log('Order submitted:', orderData);
+    // Get confirm button for loading state
+    const confirmBtn = document.querySelector('#orderConfirmationModal .btn-submit');
+    const originalText = confirmBtn.textContent;
+    confirmBtn.textContent = 'Submitting Order...';
+    confirmBtn.disabled = true;
 
-    // Close modal
-    closeOrderModal();
+    try {
+        // Send order to serverless function
+        const response = await fetch('/api/send-order-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(orderData)
+        });
 
-    // Show success message
-    alert('Order submitted successfully! Please complete payment using one of the provided methods.');
+        const result = await response.json();
 
-    // Clear cart from localStorage and memory
-    cart = [];
-    localStorage.removeItem('natureCoastCart');
-    updateCart();
-    products.forEach(p => updateDisplay(p.id));
+        if (response.ok && result.success) {
+            // Close modal
+            closeOrderModal();
 
-    // Reset form
-    form.reset();
+            // Show success message
+            alert('Order submitted successfully! Please complete payment using one of the provided methods. You will receive a confirmation email shortly.');
+
+            // Clear cart from localStorage and memory
+            cart = [];
+            localStorage.removeItem('natureCoastCart');
+            updateCart();
+            products.forEach(p => updateDisplay(p.id));
+
+            // Reset form
+            form.reset();
+        } else {
+            throw new Error(result.error || 'Failed to submit order');
+        }
+    } catch (error) {
+        console.error('Order submission error:', error);
+        alert('There was an error submitting your order. Please try again or contact us directly at naturecoastsolutions@gmail.com');
+    } finally {
+        confirmBtn.textContent = originalText;
+        confirmBtn.disabled = false;
+    }
 }
