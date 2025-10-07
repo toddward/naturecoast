@@ -1,8 +1,0 @@
-packages:
-  - name: send-order-email
-    environment:
-      RESEND_API_KEY: ${RESEND_API_KEY}
-    functions:
-      - name: send-order-email
-        runtime: 'nodejs:18'
-        web: true

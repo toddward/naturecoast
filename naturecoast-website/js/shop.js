@@ -425,8 +425,8 @@ async function confirmAndSubmitOrder() {
     confirmBtn.disabled = true;
 
     try {
-        // Send order to serverless function
-        const response = await fetch('/send-order-email/send-order-email', {
+        // Send order to API service
+        const response = await fetch('/api/send-order-email', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(orderData)
