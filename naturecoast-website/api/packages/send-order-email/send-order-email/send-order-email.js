@@ -2,11 +2,17 @@
 import { Resend } from 'resend';
 
 export async function main(event) {
-  // Check if this is a POST request
-  if (event.http && event.http.method !== 'POST') {
+  // Log the event structure for debugging
+  console.log('Event structure:', JSON.stringify(event));
+
+  // Check if this is a POST request - handle different event structures
+  const httpMethod = event.__ow_method || (event.http && event.http.method) || event.method;
+
+  if (httpMethod && httpMethod !== 'POST') {
     return {
       statusCode: 405,
-      body: { success: false, error: 'Method not allowed' }
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ success: false, error: 'Method not allowed', receivedMethod: httpMethod })
     };
   }
 
@@ -14,13 +20,16 @@ export async function main(event) {
   const resend = new Resend(process.env.RESEND_API_KEY);
 
   // Extract order data from event (DigitalOcean auto-parses JSON body)
-  const { customer, items, subtotal, shipping, total } = event;
+  // Try different ways the data might be structured
+  const data = event.body || event.__ow_body || event;
+  const { customer, items, subtotal, shipping, total } = typeof data === 'string' ? JSON.parse(data) : data;
 
   // Validate required data
   if (!customer || !items || !Array.isArray(items) || items.length === 0) {
     return {
       statusCode: 400,
-      body: { success: false, error: 'Missing required order data' }
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ success: false, error: 'Missing required order data' })
     };
   }
 
@@ -134,13 +143,15 @@ export async function main(event) {
 
     return {
       statusCode: 200,
-      body: { success: true, message: 'Order email sent successfully', id: result.id }
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ success: true, message: 'Order email sent successfully', id: result.id })
     };
   } catch (error) {
     console.error('Error sending email:', error);
     return {
       statusCode: 500,
-      body: { success: false, error: error.message || 'Failed to send order email' }
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ success: false, error: error.message || 'Failed to send order email' })
     };
   }
 }
