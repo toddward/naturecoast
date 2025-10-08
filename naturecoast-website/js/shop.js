@@ -439,7 +439,7 @@ async function confirmAndSubmitOrder() {
             closeOrderModal();
 
             // Show success message
-            alert('Order submitted successfully! Please complete payment using one of the provided methods. You will receive a confirmation email shortly.');
+            alert('Order submitted successfully! Please complete payment using one of the provided methods including only your name in the notes on the payment. You will receive a confirmation email shortly.');
 
             // Clear cart from localStorage and memory
             cart = [];
