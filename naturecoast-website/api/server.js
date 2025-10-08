@@ -30,32 +30,51 @@ const PORT = process.env.PORT || 8080;
 // 3. Use smtp.gmail.com as host
 // 4. Port 587 with SMTP_SECURE=false OR Port 465 with SMTP_SECURE=true
 //
-const transporter = nodemailer.createTransport({
+// Determine if we should use direct SSL or STARTTLS
+const isSecure = process.env.SMTP_SECURE === 'true';
+const port = parseInt(process.env.SMTP_PORT || '587');
+
+// Configure transporter based on port and security settings
+let transportConfig = {
   host: process.env.SMTP_HOST,
-  port: parseInt(process.env.SMTP_PORT || '587'),
-  secure: process.env.SMTP_SECURE === 'true', // true for port 465, false for port 587
+  port: port,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS
-  },
-  // TLS configuration to fix SSL version errors
-  tls: {
-    // Do not fail on invalid certs
+  }
+};
+
+// Apply different configurations based on port
+if (port === 465) {
+  // Port 465 - Direct SSL/TLS connection
+  transportConfig.secure = true;
+  transportConfig.tls = {
+    rejectUnauthorized: false
+  };
+} else if (port === 587 || port === 25) {
+  // Port 587/25 - STARTTLS upgrade
+  transportConfig.secure = false;
+  transportConfig.ignoreTLS = false;
+  transportConfig.requireTLS = true;
+  transportConfig.tls = {
     rejectUnauthorized: false,
-    // Force TLS version to prevent SSL version mismatch
-    minVersion: 'TLSv1.2',
-    // Enable cipher suite that works with most SMTP servers
-    ciphers: 'SSLv3'
-  },
-  // Additional options for STARTTLS on port 587
-  requireTLS: process.env.SMTP_PORT === '587' || !process.env.SMTP_PORT,
-  // Connection timeout
-  connectionTimeout: 60000,
-  greetingTimeout: 30000,
-  // Debug output
-  debug: process.env.NODE_ENV === 'development',
-  logger: process.env.NODE_ENV === 'development'
-});
+    minVersion: 'TLSv1.2'
+  };
+} else {
+  // Custom port - use env settings
+  transportConfig.secure = isSecure;
+  transportConfig.tls = {
+    rejectUnauthorized: false
+  };
+}
+
+// Add debug options if in development
+if (process.env.NODE_ENV === 'development') {
+  transportConfig.debug = true;
+  transportConfig.logger = true;
+}
+
+const transporter = nodemailer.createTransport(transportConfig);
 
 // Middleware
 app.use(cors());
