@@ -1,0 +1,38 @@
+# DigitalOcean App Platform Configuration
+name: naturecoast-website
+region: nyc
+
+# Static site component for frontend
+static_sites:
+  - name: frontend
+    github:
+      repo: toddward/naturecoast
+      branch: main
+      deploy_on_push: true
+    source_dir: /naturecoast-website
+    output_dir: /naturecoast-website
+    index_document: index.html
+    error_document: index.html
+    routes:
+      - path: /
+    build_command: echo "No build needed for static site"
+
+# API service component for email sending
+services:
+  - name: api
+    github:
+      repo: toddward/naturecoast
+      branch: updates/mailer
+      deploy_on_push: true
+    source_dir: naturecoast-website/api
+    http_port: 8080
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    routes:
+      - path: /api
+    envs:
+      - key: RESEND_API_KEY
+        scope: RUN_TIME
+        type: SECRET
+    health_check:
+      http_path: /health
