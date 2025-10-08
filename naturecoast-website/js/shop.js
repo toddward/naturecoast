@@ -91,7 +91,7 @@ function calculateShipping() {
     const kitCount = countKitsInCart();
 
     if (kitCount === 0) {
-        return 0;
+        return 10.00;
     } else if (kitCount >= 1 && kitCount <= 5) {
         return 10.00;
     } else if (kitCount >= 6 && kitCount <= 12) {
