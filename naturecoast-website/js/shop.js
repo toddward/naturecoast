@@ -55,24 +55,25 @@ let products = [
   { id: 51, name: 'LL37 5 MG 10 VIALS / KIT', price: 250.00, category: 'kits' },
   { id: 52, name: 'FOX04 10 MG 10 VIALS / KIT', price: 530.00, category: 'kits' },
   { id: 53, name: 'VIT C 10 VIALS / KIT', price: 100.00, category: 'kits' },
+  { id: 54, name: 'MAZDUTIDE 10 VIALS / KIT', price: 340.00, category: 'kits' },
   //singles
-  { id: 54, name: 'BAC WATER SINGLE VIAL', price: 5.00, category: 'singles' },
-  { id: 55, name: 'SEMA 20 MG SINGLE VIAL', price: 35.00, category: 'singles' },
-  { id: 56, name: 'TIRZ 30 MG SINGLE VIAL', price: 40.00, category: 'singles' },
-  { id: 57, name: 'TIRZ 60 MG SINGLE VIAL', price: 60.00, category: 'singles' },
-  { id: 58, name: 'RETA 10 MG SINGLE VIAL', price: 30.00, category: 'singles' },
-  { id: 59, name: 'CAGRILINTIDE 5MG SINGLE VIAL', price: 55.00, category: 'singles' },
-  { id: 60, name: 'SURVOLIGUTIDE 10 MG SINGLE VIAL', price: 70.00, category: 'singles' },
-  { id: 61, name: 'AOD 5 MG SINGLE VIAL', price: 35.00, category: 'singles' },
-  { id: 62, name: 'PT-141 SINGLE VIAL', price: 25.00, category: 'singles' },
-  { id: 63, name: 'TESAMORELIN 10 MG SINGLE VIAL', price: 45.00, category: 'singles' },
-  { id: 64, name: 'GHK-CU COSMETIC POWDER 1 GRAM', price: 25.00, category: 'singles' },
-  { id: 65, name: 'SNAP-8 SINGLE VIAL', price: 25.00, category: 'singles' },
-  { id: 66, name: 'MT-2 10 MG SINGLE VIAL', price: 25.00, category: 'singles' },
-  { id: 67, name: 'MT-1 10 MG SINGLE VIAL', price: 25.00, category: 'singles' },
+  { id: 55, name: 'BAC WATER SINGLE VIAL', price: 5.00, category: 'singles' },
+  { id: 56, name: 'SEMA 20 MG SINGLE VIAL', price: 35.00, category: 'singles' },
+  { id: 57, name: 'TIRZ 30 MG SINGLE VIAL', price: 40.00, category: 'singles' },
+  { id: 58, name: 'TIRZ 60 MG SINGLE VIAL', price: 60.00, category: 'singles' },
+  { id: 59, name: 'RETA 10 MG SINGLE VIAL', price: 30.00, category: 'singles' },
+  { id: 60, name: 'CAGRILINTIDE 5MG SINGLE VIAL', price: 55.00, category: 'singles' },
+  { id: 61, name: 'SURVOLIGUTIDE 10 MG SINGLE VIAL', price: 70.00, category: 'singles' },
+  { id: 62, name: 'AOD 5 MG SINGLE VIAL', price: 35.00, category: 'singles' },
+  { id: 63, name: 'PT-141 SINGLE VIAL', price: 25.00, category: 'singles' },
+  { id: 64, name: 'TESAMORELIN 10 MG SINGLE VIAL', price: 45.00, category: 'singles' },
+  { id: 65, name: 'GHK-CU COSMETIC POWDER 1 GRAM', price: 25.00, category: 'singles' },
+  { id: 66, name: 'SNAP-8 SINGLE VIAL', price: 25.00, category: 'singles' },
+  { id: 67, name: 'MT-2 10 MG SINGLE VIAL', price: 25.00, category: 'singles' },
+  { id: 68, name: 'MT-1 10 MG SINGLE VIAL', price: 25.00, category: 'singles' },
   //supplies
-  { id: 68, name: '31G 5/16 1ML PK OF 10 NEEDLES', price: 8.00, category: 'supplies' },
-  { id: 69, name: 'GA WATER 10 ML AOD WATER ONLY', price: 20.00, category: 'supplies' }
+  { id: 69, name: '31G 5/16 1ML PK OF 10 NEEDLES', price: 8.00, category: 'supplies' },
+  { id: 70, name: 'GA WATER 10 ML AOD WATER ONLY', price: 20.00, category: 'supplies' }
 ];
 
 // Count total kits in cart
